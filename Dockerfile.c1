@@ -1,0 +1,15 @@
+# Cliente 1: Ubuntu 16.10
+FROM ubuntu:16.10
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Corregir repositorios EOL (archive Y security)
+RUN sed -i 's/archive.ubuntu.com/old-releases.ubuntu.com/g' /etc/apt/sources.list && \
+    sed -i 's/security.ubuntu.com/old-releases.ubuntu.com/g' /etc/apt/sources.list
+
+# Instalar cliente OpenSSH y herramientas de red
+RUN apt-get update && \
+    apt-get install -y openssh-client tcpdump net-tools && \
+    rm -rf /var/lib/apt/lists/*
+
+# Mantener el contenedor vivo
+CMD ["tail", "-f", "/dev/null"]
